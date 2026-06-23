@@ -44,10 +44,10 @@
 
 %=================================================================
 % Full title of the paper (Capitalized)
-\Title{BaseflowX: A Python Package for Baseflow Separation Unifying Digital Filters, Graphical Methods, and Tracer-Based Approaches}
+\Title{A literature review of baseflow separation algorithms and an accompanying computational package}
 
 % MDPI internal command: Title for citation in the left column
-\TitleCitation{BaseflowX: A Python Package for Baseflow Separation}
+\TitleCitation{A Literature Review of Baseflow Separation Algorithms and an Accompanying Computational Package}
 
 % Author ORCID IDs
 \newcommand{\orcidauthorA}{0000-0002-7597-2825} % Norman Jones
@@ -75,7 +75,7 @@ $^{3}$ \quad Civil, Construction and Environmental Engineering, University of Al
 %\conference{}
 
 % Abstract (Do not insert blank lines, i.e. \\)
-\abstract{Baseflow---the portion of streamflow sustained by groundwater discharge---is fundamental to watershed hydrology, water resource management, and ecological assessment. Because baseflow cannot be measured directly, it must be estimated by separating it from total streamflow. Numerous separation methods exist, but they are scattered across legacy Fortran programs, web tools, and research scripts with inconsistent interfaces. We present \texttt{baseflowx}, an open-source Python package that unifies 17 baseflow separation methods spanning four methodological paradigms: recursive digital filters (both linear-reservoir-based and signal-processing-based families), graphical and recession-based methods, and tracer-based approaches. A key contribution is the identification of a generalized three-parameter recursive digital filter equation that subsumes all 11 implemented recursive filters as special cases, revealing previously undocumented algebraic relationships among popular methods. The package also introduces the first Python implementation of the PART method, a conductivity mass balance (CMB) tracer module, and a CMB-to-Eckhardt calibration bridge linking physical measurements to digital filter parameters. Built on NumPy with Numba acceleration, \texttt{baseflowx} provides a consistent function-oriented API, built-in USGS data retrieval, and comprehensive documentation. The package is pip-installable and available under the MIT license.}
+\abstract{Baseflow---the portion of streamflow sustained by groundwater discharge---is fundamental to watershed hydrology, water resource management, and ecological assessment. Because baseflow cannot be measured directly, it must be estimated by separating it from total streamflow, and decades of research have produced a large and diverse collection of separation methods. This paper presents a review of these methods, organizing them into four methodological paradigms: recursive digital filters, graphical hydrograph-partitioning methods, recession-based methods, and tracer-based approaches. Within the recursive digital filter paradigm, we show that the many filters proposed by different authors can be expressed as special cases of a single generalized three-parameter equation, which exposes the algebraic relationships among popular methods and separates them into linear-reservoir and signal-processing families. For each paradigm we discuss the underlying assumptions, parameter requirements, and practical trade-offs that guide method selection. To make these methods readily accessible and directly comparable, we also describe \texttt{baseflowx}, an open-source Python package and companion web application that implement 17 of the reviewed methods behind a consistent interface, together with built-in USGS data retrieval and a conductivity mass balance (CMB) module that links tracer measurements to digital-filter parameters. The package is pip-installable under the MIT license, providing a unified platform for applying and comparing baseflow separation methods that have historically been scattered across legacy programs, web tools, and research scripts.}
 
 % Keywords
 \keyword{baseflow separation; digital filter; Python; open-source software; recession analysis; streamflow; tracer; hydrology}
