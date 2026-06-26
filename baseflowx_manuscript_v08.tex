@@ -91,7 +91,7 @@ Streamflow comprises two primary components: quickflow, which responds rapidly t
 
 Over several decades, a diverse array of separation methods has been developed, as summarized in several reviews~\cite{Tallaksen1995,McMahon2021}. These methods can be broadly organized into four categories. \textit{Recursive digital filters} apply signal-processing or linear-reservoir-based equations to partition the hydrograph into baseflow and quickflow components~\cite{Lyne1979,Nathan1990,Chapman1991,Eckhardt2005}. \textit{Graphical methods} identify baseflow through geometric rules applied to the hydrograph, such as fixed intervals, sliding windows, or local minima~\cite{Sloto1996}. \textit{Recession-based methods} exploit the characteristic exponential decay of baseflow during dry periods to anchor separation points~\cite{Tallaksen1995,Rutledge1998}. \textit{Tracer-based methods} use hydrochemical measurements, such as specific conductance or stable isotopes, to quantify the groundwater fraction via mass balance~\cite{Stewart2007,Klaus2013}. The choice of method can substantially affect the resulting baseflow index, as demonstrated by comparative studies across diverse catchments~\cite{Eckhardt2008,Lott2016}.
 
-Despite the abundance of methods, practitioners face practical barriers to applying them. The USGS programs HYSEP~\cite{Sloto1996} and PART~\cite{Rutledge1998} are written in legacy Fortran and are difficult to integrate into modern analytical workflows. The Web-based Hydrograph Analysis Tool (WHAT)~\cite{Lim2005} provides a graphical interface but cannot be scripted or automated. Several R packages exist but are limited to a small subset of methods~\cite{Pelletier2020}. The Python package by Xie et al.~\cite{Xie2020} implemented 11 digital filters but was designed primarily as research code for a specific comparative study, bundling geospatial and study-specific functionality that limited its reusability as a general-purpose library. More broadly, the growing Python ecosystem for hydrology, including packages such as Hydrostats~\cite{Roberts2018} and Pastas~\cite{Collenteur2019}, has demonstrated the value of well-documented, pip-installable tools, yet no comprehensive Python package for baseflow separation has been available.
+Despite the abundance of methods, practitioners face practical barriers to applying them. The USGS programs HYSEP~\cite{Sloto1996} and PART~\cite{Rutledge1998} are written in legacy Fortran and are difficult to integrate into modern analytical workflows. The Web-based Hydrograph Analysis Tool (WHAT)~\cite{Lim2005} provides a graphical interface but cannot be scripted or automated. Several R packages exist but are limited to a small subset of methods~\cite{PelletierR2020}. The Python package by Xie et al.~\cite{Xie2020} implemented 11 digital filters but was designed primarily as research code for a specific comparative study, bundling geospatial and study-specific functionality that limited its reusability as a general-purpose library. More broadly, the growing Python ecosystem for hydrology, including packages such as Hydrostats~\cite{Roberts2018} and Pastas~\cite{Collenteur2019}, has demonstrated the value of well-documented, pip-installable tools, yet no comprehensive Python package for baseflow separation has been available.
 
 To address these gaps, we present \texttt{baseflowx}, an open-source Python package that provides a unified, consistent interface to 17 baseflow separation methods across all four methodological paradigms, and the Baseflow Explorer, a companion web application that delivers the same methods through a browser-based map interface. The package builds on the work of Xie et al.~\cite{Xie2020} but has been extensively refactored: study-specific code has been removed, four new methods have been added (PART, CMB, IHACRES, and BFlow), a new tracer module has been introduced, and the recursive digital filters have been unified under a single generalized equation. The result is a focused, pip-installable library with a flat, function-oriented API, built-in USGS data retrieval, Numba-accelerated performance, and comprehensive documentation.
 
@@ -214,7 +214,7 @@ The method applies the three-pass Lyne--Hollick filter and then performs linear 
 
 \subsubsection{Brutsaert--Nieber (BN77) Method}
 
-The BN77 method~\cite{Cheng2016} identifies drought-flow data points suitable for recession analysis by applying a series of elimination criteria to the recession slope $S(t) = (Q_{t-1} - Q_{t+1})/2$. Points surviving all filters represent pure baseflow conditions.
+The BN77 method~\cite{Brutsaert1977,Cheng2016} identifies drought-flow data points suitable for recession analysis by applying a series of elimination criteria to the recession slope $S(t) = (Q_{t-1} - Q_{t+1})/2$. Points surviving all filters represent pure baseflow conditions.
 
 \subsection{Tracer-Based Methods}
 \label{sec:tracer}
@@ -246,7 +246,7 @@ At the parameter calibration level, Zhang et al.~\cite{Zhang2021} examined wheth
 
 Despite the abundance of separation methods, the software landscape has historically been fragmented. The USGS programs HYSEP~\cite{Sloto1996} and PART~\cite{Rutledge1998} remain standard references for graphical and recession-based methods, but their Fortran executables cannot be called from Python scripts, Jupyter notebooks, or cloud-based pipelines without cumbersome wrappers. The Web-based Hydrograph Analysis Tool (WHAT)~\cite{Lim2005} introduced web accessibility but is limited to three methods and cannot be automated for batch processing. The original \texttt{baseflow} package by Xie et al.~\cite{Xie2020} implemented 11 digital filters in Python but included study-specific geospatial functionality (global freeze/thaw rasters, spatial batch processing) that limited its reusability as a general-purpose library; it also lacked graphical, recession-based, and tracer-based methods.
 
-In the R ecosystem, Pelletier and Andrassian~\cite{Pelletier2020} offer a principled parametric approach, but single-method packages do not provide the breadth required for cross-paradigm comparison. The growing Python ecosystem for hydrology, including Hydrostats~\cite{Roberts2018} and Pastas~\cite{Collenteur2019}, has demonstrated the value of well-documented, pip-installable tools, yet no comprehensive Python package spanning all four methodological paradigms has been available. The \texttt{baseflowx} package and the Baseflow Explorer web application were developed to fill this gap, providing unified access to 17 methods from both a scripting environment and a browser interface.
+In the R ecosystem, Pelletier and Andr\'{e}assian~\cite{Pelletier2020,PelletierR2020} offer a principled parametric approach, but single-method packages do not provide the breadth required for cross-paradigm comparison. The growing Python ecosystem for hydrology, including Hydrostats~\cite{Roberts2018} and Pastas~\cite{Collenteur2019}, has demonstrated the value of well-documented, pip-installable tools, yet no comprehensive Python package spanning all four methodological paradigms has been available. The \texttt{baseflowx} package and the Baseflow Explorer web application were developed to fill this gap, providing unified access to 17 methods from both a scripting environment and a browser interface.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The \texttt{baseflowx} Python Package}
@@ -655,7 +655,10 @@ Lott, D.A.; Stewart, M.T. Base Flow Separation: A Comparison of Analytical and M
 Lim, K.J.; Engel, B.A.; Tang, Z.; Choi, J.; Kim, K.; Muthukrishnan, S.; Tripathy, D. Automated Web GIS Based Hydrograph Analysis Tool, WHAT. \textit{J. Am. Water Resour. Assoc.} \textbf{2005}, \textit{41}, 1407--1416. \url{https://doi.org/10.1111/j.1752-1688.2005.tb03808.x}
 
 \bibitem{Pelletier2020}
-Pelletier, A.; Andrassian, V. Hydrograph Separation: An Impartial Parametrisation for an Imperfect Method. \textit{Hydrol. Earth Syst. Sci.} \textbf{2020}, \textit{24}, 1171--1187. \url{https://doi.org/10.5194/hess-24-1171-2020}
+Pelletier, A.; Andr\'{e}assian, V. Hydrograph Separation: An Impartial Parametrisation for an Imperfect Method. \textit{Hydrol. Earth Syst. Sci.} \textbf{2020}, \textit{24}, 1171--1187. \url{https://doi.org/10.5194/hess-24-1171-2020}
+
+\bibitem{PelletierR2020}
+Pelletier, A.; Andr\'{e}assian, V.; Delaigue, O. \textit{baseflow: Computes Hydrograph Separation}; R Package Version 1.3; INRAE: Paris, France, 2020. \url{https://doi.org/10.15454/Z9IK5N}
 
 \bibitem{Xie2020}
 Xie, J.; Liu, X.; Wang, K.; Yang, T.; Liang, K.; Liu, C. Evaluation of Typical Methods for Baseflow Separation in the Contiguous United States. \textit{J. Hydrol.} \textbf{2020}, \textit{583}, 124628. \url{https://doi.org/10.1016/j.jhydrol.2020.124628}
@@ -677,6 +680,9 @@ Jakeman, A.J.; Hornberger, G.M. How Much Complexity Is Warranted in a Rainfall-R
 
 \bibitem{Arnold1999}
 Arnold, J.G.; Allen, P.M. Automated Methods for Estimating Baseflow and Ground Water Recharge from Streamflow Records. \textit{J. Am. Water Resour. Assoc.} \textbf{1999}, \textit{35}, 411--424. \url{https://doi.org/10.1111/j.1752-1688.1999.tb03599.x}
+
+\bibitem{Brutsaert1977}
+Brutsaert, W.H.; Nieber, J.L. Regionalized Drought Flow Hydrographs from a Mature Glaciated Plateau. \textit{Water Resour. Res.} \textbf{1977}, \textit{13}, 637--643. \url{https://doi.org/10.1029/WR013i003p00637}
 
 \bibitem{Cheng2016}
 Cheng, L.; Zhang, L.; Brutsaert, W. Automated Selection of Pure Base Flows from Regular Daily Streamflow Data: Objective Algorithm. \textit{J. Hydrol. Eng.} \textbf{2016}, \textit{21}, 06016008. \url{https://doi.org/10.1061/(ASCE)HE.1943-5584.0001427}
