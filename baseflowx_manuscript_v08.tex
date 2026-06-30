@@ -527,7 +527,7 @@ The \texttt{baseflowx} library is complemented by the Baseflow Explorer, a brows
 \subsection{Architecture}
 \label{sec:webapp_arch}
 
-The Baseflow Explorer is built on a Flask backend that wraps the \texttt{baseflowx} library, a Leaflet.js front-end map, and a Plotly-powered interactive hydrograph panel. When a user clicks a USGS stream gage on the map, the server retrieves daily discharge data from the USGS National Water Information System (NWIS) API in real time, executes the requested separation methods via \texttt{baseflowx}, and returns the baseflow time series as an interactive visualization. A lightweight caching layer prevents redundant NWIS requests for recently queried gages, reducing latency for repeat analyses.
+The Baseflow Explorer is built on a Flask backend that wraps the \texttt{baseflowx} library, a Leaflet.js front-end map, and a Plotly-powered interactive hydrograph panel. When a user clicks a USGS stream gage on the map, the server retrieves daily discharge data from the USGS National Water Information System (NWIS) API in real time, executes the requested separation methods via \texttt{baseflowx}, and returns the baseflow time series as an interactive visualization. A lightweight caching layer prevents redundant NWIS requests for recently queried gages, reducing latency for repeat analyses. Figure~\ref{fig:webapp} shows the application interface, with the national gage map and interactive hydrograph panel displayed side by side.
 
 \begin{figure}[H]
 \centering
